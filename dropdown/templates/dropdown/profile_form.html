@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>Person Detail</title>
+</head>
+<body>
+<h2>Person Form</h2>
+<form method="post" id="personForm" data-state-url="{% url 'ajax_load_state' %}"
+  data-districts-url="{% url 'ajax_load_district' %}" data-city-url="{% url 'ajax_load_city' %}" novalidate>
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+  </table>
+  <button type="submit">Submit</button>
+</form>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> 
+<script>
+  $("#id_country").change(function () {
+    const url = $("#personForm").attr("data-state-url");
+    const countryId = $(this).val();
+    $.ajax({
+      url: url,
+      data: {
+        'country_id': countryId
+      },
+      success: function (data) {
+        $("#id_state").html(data);
+      }
+    });
+  });
+
+  $("#id_state").change(function () {
+    const url = $("#personForm").attr("data-districts-url");
+    const stateId = $(this).val();
+    $.ajax({
+      url: url,
+      data: {
+        'state_id': stateId
+      },
+      success: function (data) {
+        $("#id_district").html(data);
+      }
+    });
+  });
+
+  $("#id_district").change(function () {
+    const url = $("#personForm").attr("data-city-url");
+    const districtId = $(this).val();
+    $.ajax({
+      url: url,
+      data: {
+        'district_id': districtId
+      },
+      success: function (data) {
+        $("#id_city").html(data);
+      }
+    });
+  });
+
+
+</script>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+    integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+    crossorigin="anonymous"></script>
+</body>
+</html>

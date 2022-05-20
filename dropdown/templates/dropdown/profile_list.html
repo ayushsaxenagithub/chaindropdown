@@ -1,0 +1,42 @@
+<!Doctype html>
+<html>
+  <head>
+    <title>Existing Data</title>
+  </head>
+  <body>
+  <h2>Existing data</h2>
+
+  <p>
+    <a href="{% url 'profile_add' %}">Add Profile</a>
+  </p>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Country Name</th>
+        <th>State Name</th>
+        <th>District Name</th>
+        <th>City Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for profile in profile %}
+        <tr>
+          <td>{{ profile.name }}</td>
+          <td>{{ profile.country.name }}</td>
+          <td>{{ profile.state.name }}</td>
+          <td>{{ profile.district.name }}</td>
+          <td>{{ profile.city.name }}</td>
+          <td><a href="{% url 'profile_change' profile.pk %}">Edit</a></td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No person in the database. <a href="{% url 'profile_add' %}">Add the first person</a>.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
+
